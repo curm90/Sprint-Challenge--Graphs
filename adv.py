@@ -28,21 +28,46 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
+
+# . Place to store reversed directions
 reverse_directions = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+# . Place to store travesed path
 traversal_path = []
+# . Place to store backtracked paths
 backtracked_path = []
+# . Place to store visited rooms
 visited = {}
-current_room = player.current_room.id
-exits = player.current_room.get_exits()
 
-visited[current_room] = exits
+visited[player.current_room.id] = player.current_room.get_exits()
 
+# . While length of visited is less than length of the room_graph minus 1
 while len(visited) < len(room_graph) - 1:
-    if current_room not in visited:
-        visited[current_room] = exits
-        prev = backtracked_path[-1]
-        visited[current_room].remove(prev)
-    while len(visited[current_room]) < 1:
+    # . Check if the current room has been visited
+    if player.current_room.id not in visited:
+        # . If not set the room id in visited to the list of exits
+        visited[player.current_room.id] = player.current_room.get_exits()
+        # . Set the last room to the last item in the backtracked path
+        last_room = backtracked_path[-1]
+        # . And remove the last room from the visited dictionary
+        visited[player.current_room.id].remove(last_room)
+    # . While there are no more room to traverse (Dead end)
+    while len(visited[player.current_room.id]) < 1:
+        # . Remove the last direction from the backtracked path
+        prev_path = backtracked_path.pop()
+        # . Move the player back in that direction
+        player.travel(prev_path)
+        # . Append the last direction to the traversal path
+        traversal_path.append(prev_path)
+        # . Check if there are unexplored rooms
+    else:
+        # . Set the last exit to last exit in the current room
+        prev_exit = visited[player.current_room.id].pop()
+        # . Append the exit to the traversal path
+        traversal_path.append(prev_exit)
+        # . Append the backtracked reverse direction to backtracked path
+        backtracked_path.append(reverse_directions[prev_exit])
+        # . Move to the next room
+        player.travel(prev_exit)
 
         # TRAVERSAL TEST
 visited_rooms = set()
