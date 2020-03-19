@@ -40,13 +40,11 @@ visited[current_room] = exits
 while len(visited) < len(room_graph) - 1:
     if current_room not in visited:
         visited[current_room] = exits
-    print(visited)
-    print(exits)
-    print(current_room)
-    break
+        prev = backtracked_path[-1]
+        visited[current_room].remove(prev)
+    while len(visited[current_room]) < 1:
 
-
-# TRAVERSAL TEST
+        # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
