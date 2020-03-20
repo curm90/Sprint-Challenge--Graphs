@@ -1,0 +1,22 @@
+. Place to store reversed directions
+. Place to store travered graph
+. Place to store visited rooms
+. Place to store backtracked paths
+
+. Add first room and exits to visited
+. While length of visited is less than length of the room_graph minus 1
+. Check if the current room has been visited
+. If not set the room id in visited to the list of exits
+. Set the last room to the last item in the backtracked path
+. And remove the last room from the visited dictionary
+
+. While there are no more room to traverse (Dead end)
+. Remove the last direction from the backtracked path
+. Move the player back in that direction
+. Append the last direction to the traversal path
+
+. Check if there are unexplored rooms
+. Set the last exit to last exit in the current room
+. Append the exit to the traversal path
+. Append the backtracked reverse direction to backtracked path
+. Move to the next room
